@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+<div class="calculator">
+    
+    <div class="dashboard">
+        <div class="input"> </div>
+        <div class="output">  </div>
+
+    </div>
+
+    <div class="numbers">
+
+       <div class="block1">
+
+        <button> AC </button>
+        <button> C </button>
+        <button class="keys"> % </button>
+        <button class="keys"> / </button>
+        </div>
+
+        <div class="block2">
+
+        <div class="sub-block1">
+            <button class="keys"> 7 </button>
+            <button class="keys"> 8 </button>
+            <button class="keys"> 9 </button>
+            <button class="thisKey"> + </button>
+         </div>
+
+         <div class="sub-block2">
+            <button class="keys"> 4 </button>
+            <button class="keys"> 5 </button>
+            <button class="keys"> 6 </button>
+            <button class="thisKey"> - </button>
+        </div>
+
+        <div class="sub-block3">
+
+            <button class="keys"> 1 </button>
+            <button class="keys"> 2 </button>
+            <button class="keys"> 3 </button>
+            <button class="keys"> x </button>
+
+        </div>
+
+         <div class="sub-block4">
+
+            <button class="keys"> 0 </button>
+            <button> . </button>
+            <button id="large"> = </button>
+
+
+         </div>
+
+            
+        </div>
+
+        </div>
+
+        
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script> 
+    
+
+    // basic math operators functions 
+
+
+    function add(x ,y){
+        return x + y;
+    };
+
+
+    function subtract (x,y) {
+        return x - y;
+    };
+
+
+    function multiply (x,y) {
+        return x * y;
+    };
+
+    function divide(x,y) {
+        return x / y;
+    };
+
+    // operate function 
+
+    function operate (operator,num1=0,num2=0){
+
+        if (operator == "+") {
+            console.log(add(num1,num2));
+        }
+
+        else if (operator == "-") {
+            console.log(subtract(num1,num2));
+        }
+
+        else if (operator == "*") {
+            console.log(multiply(num1,num2));
+        }
+
+        else if (operator == "/") {
+            console.log(divide(num1,num2)); 
+               }
+
+    }; 
+
+
+    // functions number-displayed
+
+  let storeNumber = 0;
+  let storeNumber2 = 0;
+
+  function display() {
+    let myDisplay = document.querySelector(".input");
+    myDisplay.textContent = keys.textContent + myDisplay.textContent;}
+
+
+    // special keys display
+    let myKey = document.querySelectorAll(".thisKey");
+    myKey.forEach(thisKey => thisKey.addEventListener('click', function() {
+        let myDisplay = document.querySelector(".input");
+        myDisplay.textContent = myDisplay.textContent + thisKey.textContent;
+    }));
+
+    // number keys display
+        let key = document.querySelectorAll(".keys");
+        key.forEach(keys => keys.addEventListener('click', function() {
+
+            let myDisplay = document.querySelector(".input");
+             myDisplay.textContent =  myDisplay.textContent + keys.textContent; 
+
+            if (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")) {
+
+                storeNumber2 = "" + (+storeNumber2) + (+keys.textContent);
+
+            }
+
+            else {
+                storeNumber = "" + (+storeNumber) + (+keys.textContent);
+            }
+
+             console.log(storeNumber);
+             console.log(storeNumber2);
+            }));
+
+
+
+    // Calculation functions 
+
+    let calculate = document.querySelector("#large");
+    calculate.addEventListener('click', function() {
+
+        let thisValue = document.querySelector(".input");
+
+        if (thisValue.textContent.includes("+")) {
+    
+            let result = add(+storeNumber, +storeNumber2);
+            const myResult = document.querySelector(".output");
+            myResult.textContent = result}
+
+        else if (thisValue.textContent.includes("-")) {
+
+            let result = subtract(storeNumber,storeNumber2);
+            const myResult = document.querySelector(".output");
+            myResult.textContent = result};
+
+        });
+         
+
+             
+
+        
+      
+      
+
+
+    
+    
+    </script>
+</body>
+</html>
