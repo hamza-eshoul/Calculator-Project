@@ -11,7 +11,12 @@
 <div class="calculator">
     
     <div class="dashboard">
-        <div class="input"> </div>
+
+        <div class="input"> 
+            <span class= "thisNum1">  </span> 
+        
+        </div>
+
         <div class="output">  </div>
 
     </div>
@@ -20,10 +25,10 @@
 
        <div class="block1">
 
-        <button> AC </button>
-        <button> C </button>
-        <button class="keys"> % </button>
-        <button class="keys"> / </button>
+        <button class="clear"> AC </button>
+        <button class="delete"> C </button>
+        <button class="thisKey"> % </button>
+        <button class="thisKey"> / </button>
         </div>
 
         <div class="block2">
@@ -47,7 +52,7 @@
             <button class="keys"> 1 </button>
             <button class="keys"> 2 </button>
             <button class="keys"> 3 </button>
-            <button class="keys"> x </button>
+            <button class="thisKey"> x </button>
 
         </div>
 
@@ -108,24 +113,31 @@
         return x / y;
     };
 
+    function remaind(x,y) {
+        return x % y;
+    }
+
+
+
+
     // operate function 
 
     function operate (operator,num1=0,num2=0){
 
-        if (operator == "+") {
-            console.log(add(num1,num2));
+        if (operator == " + ") {
+            return add(num1,num2);
         }
 
-        else if (operator == "-") {
-            console.log(subtract(num1,num2));
+        else if (operator == " - ") {
+            return subtract(num1,num2);
         }
 
-        else if (operator == "*") {
-            console.log(multiply(num1,num2));
+        else if (operator == " x ") {
+            return multiply(num1,num2);
         }
 
-        else if (operator == "/") {
-            console.log(divide(num1,num2)); 
+        else if (operator == " / ") {
+            return divide(num1,num2); 
                }
 
     }; 
@@ -133,42 +145,147 @@
 
     // functions number-displayed
 
-  let storeNumber = 0;
-  let storeNumber2 = 0;
+  let storeNumber0 = 0;  
+  let storeNumber = 10;
 
-  function display() {
-    let myDisplay = document.querySelector(".input");
-    myDisplay.textContent = keys.textContent + myDisplay.textContent;}
+  let myVar = 0;
 
 
     // special keys display
+
     let myKey = document.querySelectorAll(".thisKey");
     myKey.forEach(thisKey => thisKey.addEventListener('click', function() {
+
+        myVar = myVar + 1;
+
         let myDisplay = document.querySelector(".input");
-        myDisplay.textContent = myDisplay.textContent + thisKey.textContent;
+        const newOperator = document.createElement('span');
+        newOperator.classList.add(`thisOperator${myVar}`);
+        myDisplay.appendChild(newOperator);
+
+        const newNum = document.createElement('span');
+        newNum.classList.add(`deNum${myVar}`);
+        myDisplay.appendChild(newNum);
+
+        let myNewOperator = document.querySelector(`.thisOperator${myVar}`);
+        myNewOperator.textContent = thisKey.textContent;
+
     }));
 
+
+
     // number keys display
+
+let thisResult = 0;
+let newResult = 0;
+
         let key = document.querySelectorAll(".keys");
         key.forEach(keys => keys.addEventListener('click', function() {
-
+            
             let myDisplay = document.querySelector(".input");
-             myDisplay.textContent =  myDisplay.textContent + keys.textContent; 
 
-            if (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")) {
+            if 
+            (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("/") || myDisplay.textContent.includes("%") ) 
+            
+            {
+                let myDisplay2 = document.querySelector(`.deNum${myVar}`);
+                myDisplay2.textContent = "" + (+myDisplay2.textContent) + (+keys.textContent);
 
-                storeNumber2 = "" + (+storeNumber2) + (+keys.textContent);
+                let leOperator = document.querySelector(`.thisOperator${myVar}`);
 
+                if (myVar == 1) {
+                    
+                  thisResult = operate(leOperator.textContent, +storeNumber0, +myDisplay2.textContent);
+                }
+
+                else {
+
+                    let mySum = thisResult + newResult;
+
+                   newResult = operate(leOperator.textContent, +mySum, +myDisplay2.textContent);
+
+                   console.log(newResult);
+    
+
+                }
+                
+
+                
+         
             }
 
             else {
-                storeNumber = "" + (+storeNumber) + (+keys.textContent);
+
+                let myDisplay3 = document.querySelector(".thisNum1");
+                myDisplay3.textContent = "" + (+myDisplay3.textContent) + (+keys.textContent);
+
+                storeNumber0 = myDisplay3.textContent;
+                
+
+    
             }
 
-             console.log(storeNumber);
-             console.log(storeNumber2);
             }));
+        
 
+
+    // clear button
+
+    let myClear = document.querySelector('.clear');
+    myClear.addEventListener('click', function(){
+
+        let myDisplay = document.querySelector(".output");
+
+        myDisplay.textContent = "";
+
+        let myDisplay2 = document.querySelector(".thisNum1");
+
+        myDisplay2.textContent = 0;
+
+        let myDisplay3 = document.querySelector(".thisNum2");
+        
+        myDisplay3.textContent = "";
+    });
+
+    // delete button 
+
+    let myDelete = document.querySelector('.delete');
+    myDelete.addEventListener('click', function(){
+
+        let myDisplay = document.querySelector(".input");
+        let myRealdisplay = document.querySelector(".thisNum2");
+
+        if ( myRealdisplay.textContent == "")
+            {
+            let myDisplay = document.querySelector(".thisNum1");
+            let myText = myDisplay.textContent;
+            let trimMyText = myText.slice(0, myText.length - 1);
+            myDisplay.textContent = trimMyText;
+
+            }
+
+        else {
+
+            if( 
+            (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("/") || myDisplay.textContent.includes("%") ))
+            
+            {
+            let myDisplay = document.querySelector(".thisNum2");
+            let myText = myDisplay.textContent;
+            let trimMyText = myText.slice(0, myText.length - 1);
+            myDisplay.textContent = trimMyText;
+            }
+
+
+            else {
+
+            let myDisplay = document.querySelector(".thisNum1");
+            let myText = myDisplay.textContent;
+            let trimMyText = myText.slice(0, myText.length - 1);
+            myDisplay.textContent = trimMyText;
+            }
+        }
+    });
 
 
     // Calculation functions 
@@ -188,19 +305,34 @@
 
             let result = subtract(storeNumber,storeNumber2);
             const myResult = document.querySelector(".output");
+            myResult.textContent = result}
+
+
+        else if (thisValue.textContent.includes("x")) {
+
+            let result = multiply(storeNumber,storeNumber2);
+            const myResult = document.querySelector(".output");
+            myResult.textContent = result}
+            
+        else if (thisValue.textContent.includes("/")) {
+
+            let result = divide(storeNumber,storeNumber2);
+            const myResult = document.querySelector(".output");
+            myResult.textContent = result}
+            
+         else if (thisValue.textContent.includes("%")) {
+
+            let result = remaind(storeNumber,storeNumber2);
+            const myResult = document.querySelector(".output");
             myResult.textContent = result};
 
         });
-         
-
-             
-
-        
-      
-      
 
 
     
+        
+
+
     
     </script>
 </body>
