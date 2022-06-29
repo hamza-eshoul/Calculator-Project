@@ -5,20 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+
 </head>
 <body>
     
+
+    <div class="presentation"> This is the calculator Project </div>
+
 <div class="calculator">
     
     <div class="dashboard">
+
+        <div class="display"> 
 
         <div class="input"> 
             <span class= "thisNum1">  </span> 
         
         </div>
 
-        <div class="output">  </div>
+        <div> <span class="output"> </span>  </div>
 
+    </div>
     </div>
 
     <div class="numbers">
@@ -28,7 +36,7 @@
         <button class="clear"> AC </button>
         <button class="delete"> C </button>
         <button class="thisKey"> % </button>
-        <button class="thisKey"> / </button>
+        <button class="thisKey"> ÷ </button>
         </div>
 
         <div class="block2">
@@ -59,35 +67,19 @@
          <div class="sub-block4">
 
             <button class="keys"> 0 </button>
-            <button> . </button>
+            <button class="wip"> . </button>
             <button id="large"> = </button>
 
 
-         </div>
-
-            
+        </div>  
+        </div>
+        </div>
+        </div>
         </div>
 
-        </div>
+        <br>
 
-        
-
-
-    </div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
+        <p> Hamza Eshoul © 2022 </p> 
 
     <script> 
     
@@ -136,9 +128,20 @@
             return multiply(num1,num2);
         }
 
-        else if (operator == " / ") {
+        else if (operator == " ÷ ") {
+
+            if (num2 == 0) {
+                return "Error Undefined";
+            }
+
+            else {
             return divide(num1,num2); 
+            }
                }
+
+        else if (operator == " % ") {
+            return remaind(num1,num2);
+        }
 
     }; 
 
@@ -146,8 +149,6 @@
     // functions number-displayed
 
   let storeNumber0 = 0;  
-  let storeNumber = 10;
-
   let myVar = 0;
 
 
@@ -170,6 +171,11 @@
         let myNewOperator = document.querySelector(`.thisOperator${myVar}`);
         myNewOperator.textContent = thisKey.textContent;
 
+        // Condition to continually renew the result while calculating a complex operation
+        if (myVar > 3) {
+            newResult = reallyNewResult;
+        };
+
     }));
 
 
@@ -178,18 +184,21 @@
 
 let thisResult = 0;
 let newResult = 0;
+let reallyNewResult = 0;
+
 
         let key = document.querySelectorAll(".keys");
         key.forEach(keys => keys.addEventListener('click', function() {
             
             let myDisplay = document.querySelector(".input");
 
+    
             if 
-            (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("/") || myDisplay.textContent.includes("%") ) 
+            (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("÷") || myDisplay.textContent.includes("%") ) 
             
             {
                 let myDisplay2 = document.querySelector(`.deNum${myVar}`);
-                myDisplay2.textContent = "" + (+myDisplay2.textContent) + (+keys.textContent);
+                myDisplay2.textContent = "" + (myDisplay2.textContent) + (+keys.textContent);
 
                 let leOperator = document.querySelector(`.thisOperator${myVar}`);
 
@@ -198,53 +207,51 @@ let newResult = 0;
                   thisResult = operate(leOperator.textContent, +storeNumber0, +myDisplay2.textContent);
                 }
 
+                else if (myVar == 2) {
+
+                    let mySum = thisResult;
+        
+                   newResult = operate(leOperator.textContent, +mySum, +myDisplay2.textContent);
+                  
+                }
+
                 else {
 
-                    let mySum = thisResult + newResult;
-
-                   newResult = operate(leOperator.textContent, +mySum, +myDisplay2.textContent);
-
-                   console.log(newResult);
-    
-
+                    reallyNewResult = operate(leOperator.textContent, +newResult, +myDisplay2.textContent);
                 }
                 
-
-                
-         
             }
 
             else {
 
                 let myDisplay3 = document.querySelector(".thisNum1");
-                myDisplay3.textContent = "" + (+myDisplay3.textContent) + (+keys.textContent);
+                myDisplay3.textContent = "" + (myDisplay3.textContent) + (+keys.textContent) ;
 
                 storeNumber0 = myDisplay3.textContent;
-                
 
-    
+                
+                
             }
 
             }));
         
-
-
     // clear button
 
     let myClear = document.querySelector('.clear');
     myClear.addEventListener('click', function(){
 
-        let myDisplay = document.querySelector(".output");
+        let myDisplay = document.querySelectorAll('span');
 
-        myDisplay.textContent = "";
+        myDisplay.forEach(function(myDisplay) {
+            myDisplay.textContent = "";
+        });
 
-        let myDisplay2 = document.querySelector(".thisNum1");
-
-        myDisplay2.textContent = 0;
-
-        let myDisplay3 = document.querySelector(".thisNum2");
-        
-        myDisplay3.textContent = "";
+        myVar = 0;
+        storeNumber0 = 0;
+        thisResult = 0;
+        newResult = 0;
+        reallyNewResult = 0;
+     
     });
 
     // delete button 
@@ -253,38 +260,30 @@ let newResult = 0;
     myDelete.addEventListener('click', function(){
 
         let myDisplay = document.querySelector(".input");
-        let myRealdisplay = document.querySelector(".thisNum2");
-
-        if ( myRealdisplay.textContent == "")
+       // let myRealdisplay = document.querySelector(`.deNum${myVar}`);
+            if(myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("÷") || myDisplay.textContent.includes("%"))
             {
-            let myDisplay = document.querySelector(".thisNum1");
-            let myText = myDisplay.textContent;
-            let trimMyText = myText.slice(0, myText.length - 1);
-            myDisplay.textContent = trimMyText;
+                let myDisplay = document.querySelector(`.deNum${myVar}`);
+                let myText = myDisplay.textContent;
+                let trimMyText = myText.slice(0, myText.length - 1);
+                myDisplay.textContent = trimMyText;
 
+                if (myDisplay.textContent == "") {
+                    let myOperatorDisplay = document.querySelector(`.thisOperator${myVar}`);
+                    let myText = myOperatorDisplay.textContent;
+                    let trimMyOperator = myText.slice(0, myText.length - 1);
+                    myOperatorDisplay.textContent = trimMyOperator;
+                    
+                }
             }
 
-        else {
-
-            if( 
-            (myDisplay.textContent.includes("+") || myDisplay.textContent.includes("-")  || myDisplay.textContent.includes("x") || myDisplay.textContent.includes("/") || myDisplay.textContent.includes("%") ))
-            
+            else
             {
-            let myDisplay = document.querySelector(".thisNum2");
-            let myText = myDisplay.textContent;
-            let trimMyText = myText.slice(0, myText.length - 1);
-            myDisplay.textContent = trimMyText;
+                let myDisplay = document.querySelector(".thisNum1");
+                let myText = myDisplay.textContent;
+                let trimMyText = myText.slice(0, myText.length - 1);
+                myDisplay.textContent = trimMyText;
             }
-
-
-            else {
-
-            let myDisplay = document.querySelector(".thisNum1");
-            let myText = myDisplay.textContent;
-            let trimMyText = myText.slice(0, myText.length - 1);
-            myDisplay.textContent = trimMyText;
-            }
-        }
     });
 
 
@@ -293,45 +292,53 @@ let newResult = 0;
     let calculate = document.querySelector("#large");
     calculate.addEventListener('click', function() {
 
-        let thisValue = document.querySelector(".input");
+        let thisValue = document.querySelector(".output");
 
-        if (thisValue.textContent.includes("+")) {
-    
-            let result = add(+storeNumber, +storeNumber2);
-            const myResult = document.querySelector(".output");
-            myResult.textContent = result}
+        if (myVar == 1) {
 
-        else if (thisValue.textContent.includes("-")) {
+            if (typeof(thisResult) == "string") {
+                thisValue.textContent = thisResult;
+            }
 
-            let result = subtract(storeNumber,storeNumber2);
-            const myResult = document.querySelector(".output");
-            myResult.textContent = result}
+            else {
+            thisValue.textContent = thisResult.toFixed(2);
+            }
+        }
 
+        else if (myVar == 2) {
 
-        else if (thisValue.textContent.includes("x")) {
+            if (typeof(newResult) == "string") {
+                thisValue.textContent = newResult;
+            }
+            else {
+            thisValue.textContent = newResult.toFixed(2);
+            }
+        }
 
-            let result = multiply(storeNumber,storeNumber2);
-            const myResult = document.querySelector(".output");
-            myResult.textContent = result}
-            
-        else if (thisValue.textContent.includes("/")) {
+         if (myVar > 2) {
 
-            let result = divide(storeNumber,storeNumber2);
-            const myResult = document.querySelector(".output");
-            myResult.textContent = result}
-            
-         else if (thisValue.textContent.includes("%")) {
+            if (typeof(reallyNewResult) == "string") {
+                thisValue.textContent = newResult;
+            }
 
-            let result = remaind(storeNumber,storeNumber2);
-            const myResult = document.querySelector(".output");
-            myResult.textContent = result};
+            else {
+            thisValue.textContent = reallyNewResult.toFixed(2); 
+            }
+        }
 
-        });
-
-
+    });
     
         
+        // Decimals
 
+        let workInProgress = document.querySelector ('.wip');
+
+        workInProgress.addEventListener('click', function() {
+
+            alert("This button is work in progress haha, enjoy the rest of the buttons though ")
+
+            
+        })
 
     
     </script>
